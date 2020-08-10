@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>pic.png</file>
+        <file>fox_small.png</file>
+        <file>eis.gif</file>
+        <file>yet_another_running_fox-2.gif</file>
+        <file>yet_another_running_fox.gif</file>
+    </qresource>
+</RCC>
