@@ -17,8 +17,8 @@
 #include "rdrCustomPixmapItem.h"
 #include "rdrRegionVisualization.h"
 
-#include "alglib/src/interpolation.h"
-#include "alglib/src/stdafx.h"
+#include "../3rd_party/Alglib/src/interpolation.h"
+#include "../3rd_party/Alglib/src/stdafx.h"
 
 using namespace alglib;
 QT_BEGIN_NAMESPACE
@@ -57,13 +57,13 @@ private slots:
     void zoom(int p);
     void on_pStart_clicked();
     void findMinPositions(QVector<float>, QVector<int>&,int,int);
-    void findMaxPositions(QVector<float>, QVector<int>&,int,int);
-    QVector<float> adaptiveMovAvFilter(QVector <float>, float);
+    void findMaxPositions(QVector<float>, QVector<int>&,int,int, float lvlFac);
+
     void getIntervals(QVector<float> values, caTransient& tr, QVector<float>& intervalY, QVector<float>& intervalX, int dir);
     void mean (DATA_COMTAINER *p);
-    QVector<float> movAvFilter(QVector <float>, float);
+
     void on_pSettings_clicked();
-    void fillTable(QString peak, float transTime, float timeToPeak, QVector <float> rise, float riseR2, QVector <float> decay, float decayR2, float ascSlope, float descSlope, float timeathalfmax, float risetime, float decaytime);
+    void fillTable(QString peak, float transTime, float timeToPeak, QVector <float> rise, float riseR2, QVector <float> decay, float decayR2, float ascSlope, float descSlope, float timeathalfmax, float risetime, float decaytime, float rt50);
     void on_pExport_clicked();
     void flatFielding();
     //void plotMEA();

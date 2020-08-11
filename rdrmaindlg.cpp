@@ -47,6 +47,7 @@ rdrMainDlg::rdrMainDlg(QWidget *parent)
     pChartView->setPalette(palette());
     pChartView->setAutoFillBackground(true);
     pChartView->setChart(pEmptyChart);
+    pChartView->setRubberBand(QChartView::RectangleRubberBand);
 
     pSettingsWdgt = new xrSettingsWdgt(this);
     pSettingsWdgt->hide();

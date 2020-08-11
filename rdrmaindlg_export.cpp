@@ -5,6 +5,7 @@
 #include "rdr_calc.h"
 #include "xrsettingswdgt.h"
 #include "catransient.h"
+#include "meatransient.h"
 
 #include <QMessageBox>
 #include <QDir>
@@ -38,6 +39,10 @@ void rdrMainDlg::on_pExport_clicked()
     if(f.open(QFile::WriteOnly))
     {
         QTextStream sy(&f);
+
+        sy.setRealNumberNotation(QTextStream::FixedNotation);
+        sy.setRealNumberPrecision(4);
+
         QTableWidgetItem *pItem;
         sy<< "Calculated values" << Qt::endl;
         sy<< "Peak" <<','
@@ -52,6 +57,7 @@ void rdrMainDlg::on_pExport_clicked()
                                                 <<"Time at half maximum" <<','
                                                     <<"Rise time" <<','
                                                         <<"Decay time" <<','
+                                                          <<"RT50" <<','
                                                     <<"intensity lmin20" <<','
                                                         <<"intensity lmid50" <<','
                                                             <<"intensity lmax90" <<','
@@ -101,10 +107,15 @@ void rdrMainDlg::on_pExport_clicked()
                   << data._valuesCa.at(data.transList.at(r)->rmin).x() <<','<<Qt::endl;
 
 
-           sy << Qt::endl;
         }
         sy << "Peak frequency" <<',' <<"Peak irregularity" <<Qt::endl;
         sy <<data.peakFreq <<','   <<data.peakIrregularity   <<Qt::endl;
+        sy <<"Action Potential" <<',' <<"Start depolarisation" <<',' <<"End depolarisation" <<','<<"Time to depolarisation" <<',' <<Qt::endl;
+        for(int e=0; e<data.transMEA.count(); e++)
+        {
+            sy <<e <<',' <<data.transMEA.at(e)->lMin20 <<',' <<data.transMEA.at(e)->rMin <<',' <<data.transMEA.at(e)->timeToDepol <<',' <<Qt::endl;
+
+        }
 
         sy << "Ca time" <<',' <<"Ca intensity" <<',' <<"MEA time" << ',' <<"MEA intensity" <<',' << Qt::endl;
         for(long i=0; i<data._valuesMEA.count(); i++)

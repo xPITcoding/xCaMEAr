@@ -5,6 +5,7 @@
 #include "rdr_calc.h"
 #include "xrsettingswdgt.h"
 #include "catransient.h"
+#include "meatransient.h"
 
 #include <QMessageBox>
 #include <QDir>
@@ -83,7 +84,7 @@ if(_electrodeR.pRegionPathItem != nullptr)
     findMinPositions(_regionIntensity,data._minPos,0, _regionIntensity.count()-1);
 
     //find maximum peaks
-    findMaxPositions(_regionIntensity,data._maxPos,0,_regionIntensity.count()-1);
+    findMaxPositions(_regionIntensity,data._maxPos,0,_regionIntensity.count()-1, 0.5);
     if (data._minPos.count()==0 || data._maxPos.count()==0){ emit message ("Minimums and maximums were not calculated"); return;}
 
     //find absolute min and max
@@ -101,7 +102,8 @@ if(_electrodeR.pRegionPathItem != nullptr)
     {
         _regionIntensity[j] = (_regionIntensity.at(j)-absMin)/(absMax-absMin);
     }
-
+    ui->pProgressBar->setValue(40);
+    ui->pProgressLbl->setText("Calculating calcium series");
     // create a 2D series for calcium
     QLineSeries *pCal=new QLineSeries();
     QPointF point;
@@ -113,8 +115,11 @@ if(_electrodeR.pRegionPathItem != nullptr)
         data._valuesCa.append(point);
     }
 
+    ui->pProgressBar->setValue(60);
+    ui->pProgressLbl->setText("Calculating individual transients");
     //create individual transients
     data.transList.clear();
+    ui->pErrorTxtB->append("calcium transient");
     for(int i = 0; i<data._minPos.count()-1; i++)
     {
         ui->pErrorTxtB->append(QString("%1").arg(i));
@@ -127,14 +132,19 @@ if(_electrodeR.pRegionPathItem != nullptr)
 //**************************************PLOT SERIES*****************************************
 //plot the minimums and maximums
     QScatterSeries *pminSSeries = new QScatterSeries();
+    pminSSeries->setMarkerSize(10);
     for (int i=0;i<data._minPos.count();++i)
         pminSSeries->append(QPointF((float)data._minPos.at(i)/data._frameRate*1000.0f,_regionIntensity.at(data._minPos.at(i))));
     QScatterSeries *pmaxSSeries = new QScatterSeries();
+    pmaxSSeries->setMarkerSize(10);
     for (int i=0;i<data._maxPos.count();++i)
         pmaxSSeries->append(QPointF((float)data._maxPos.at(i)/data._frameRate*1000.0f,_regionIntensity.at(data._maxPos.at(i))));
 
 
 //plot electrode data
+    ui->pProgressBar->setValue(80);
+    ui->pProgressLbl->setText("Calculating electrode series");
+
     QLineSeries *pMEA = new QLineSeries();
     if(!data._electrodeMap.isEmpty())
     {
@@ -145,22 +155,23 @@ if(_electrodeR.pRegionPathItem != nullptr)
         while (!_found && _index<data._electrodeMap["TimeStamp [µs]"].size())
             _found = startPnt<=data._electrodeMap["TimeStamp [µs]"].at(++_index);
 
-        if (_found)
-        {
             QString keyElectrode= ui->pElectrode->currentText();
             float _minElectrode = data._electrodeMap[keyElectrode].at(_index);
             float _maxElectrode = data._electrodeMap[keyElectrode].at(_index);
+        if (_found)
+        {
 
-            float _endTime = data._valuesCa.last().rx()*1000.0f;
 
-            for (long long e =_index; e<data._electrodeMap[keyElectrode].size() && _endTime>data._electrodeMap[keyElectrode].at(e); e++)
+            float _endTime = data._valuesCa.last().rx()*1000.0f+data._electrodeMap["TimeStamp [µs]"].at(_index);
+
+            for (long long e =_index; e<data._electrodeMap[keyElectrode].size() && _endTime>data._electrodeMap["TimeStamp [µs]"].at(e); e++)
             {
                 _minElectrode = min(data._electrodeMap[keyElectrode].at(e), _minElectrode);
                 _maxElectrode = max(data._electrodeMap[keyElectrode].at(e), _maxElectrode);
             }
 
             data._valuesMEA.clear();
-            for (long long e =_index; e<data._electrodeMap[keyElectrode].size() && _endTime>data._electrodeMap[keyElectrode].at(e); e++)
+            for (long long e =_index; e<data._electrodeMap[keyElectrode].size() && _endTime>data._electrodeMap["TimeStamp [µs]"].at(e); e++)
             {
                 point.setX((data._electrodeMap["TimeStamp [µs]"].at(e)-startPnt)/1000.0f);
                 point.setY(data._electrodeMap[keyElectrode].at(e));
@@ -169,6 +180,15 @@ if(_electrodeR.pRegionPathItem != nullptr)
             }
 
         }
+        data.transMEA.clear();
+        QVector <float> _meaValues;
+        for (long i=0;i<data._valuesMEA.count();++i)
+            _meaValues.append(data._valuesMEA[i].y());
+        QVector <int> _maxPosMEA;
+        findMaxPositions(_meaValues, _maxPosMEA, 0, _meaValues.count()-1, 0.75);
+        for(int meaPeak = 0; meaPeak<_maxPosMEA.count(); meaPeak++)
+            data.transMEA.append(new meatransient(data._valuesMEA, _maxPosMEA.at(meaPeak), _maxElectrode, _minElectrode));
+
     }
 
 
@@ -179,6 +199,7 @@ if(_electrodeR.pRegionPathItem != nullptr)
 
 //plot transient intermediate points
     QScatterSeries *transPoints = new QScatterSeries();
+    transPoints->setMarkerSize(10);
     for(int i=0; i<data.transList.count(); i++)
     {
         if(data.transList.at(i)->lmin20!=-1)
@@ -219,6 +240,8 @@ if(_electrodeR.pRegionPathItem != nullptr)
         _axisY.at(0)->setMax(1.1f);
         _axisY.at(0)->setMin(-0.05);
     }
+    ui->pProgressBar->setValue(100);
+    ui->pProgressLbl->setText("Calculations complete");
 
 //************************************BEGIN CALCULATIONS AND POPULATE THE TABLE*************************************
 // get the peak frequency parameter
@@ -235,11 +258,12 @@ if(_electrodeR.pRegionPathItem != nullptr)
     data.peakFreq*=1000.0;//convert into seconds
 
 //get the irregularity
+    data.peakIrregularity=0.0;
     for(int j=0; j<data.transList.count()-1; j++)
     {
         data.peakIrregularity += pow(data.peakFreq - 1.0/(cValues.at(j)/1000.0) ,2);
     }
-    data.peakIrregularity/=data.transList.count()-2;
+    data.peakIrregularity/=(double)(data.transList.count()-2);
     data.peakIrregularity = sqrt(data.peakIrregularity);
 
 //populate table
@@ -258,7 +282,9 @@ if(_electrodeR.pRegionPathItem != nullptr)
                   data.transList.at(transNr)->descSlope,
                   data.transList.at(transNr)->patHalfMax,
                   data.transList.at(transNr)->riseTime,
-                  data.transList.at(transNr)->decayTime);
+                  data.transList.at(transNr)->decayTime,
+                  data.transList.at(transNr)->rt50);
+
 
     }
 

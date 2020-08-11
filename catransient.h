@@ -23,7 +23,7 @@ public:
     int lmin = 0;
     int rmin = 0;
     int _maxabs = 0;
-    float timeToPeak,  decayR2, riseR2, descSlope, ascSlope, patHalfMax, transTime, decayTime, riseTime;
+    float timeToPeak,  decayR2, riseR2, descSlope, ascSlope, patHalfMax, transTime, decayTime, riseTime, rt50;
     QVector <float> decay, rise;
     // define to string
     QString toString();

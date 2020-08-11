@@ -6,6 +6,7 @@
 #include <QVector>
 #include <QMap>
 
+class meatransient;
 class caTransient;
 
 enum direction
@@ -37,6 +38,7 @@ struct DATA_COMTAINER
 
 
     QList <caTransient*> transList;             //all calculated transients
+    QList <meatransient*> transMEA;             //mea transients
     QMap <QString, QList<float>> _electrodeMap; //all electrodes recorded. Key(electrode number)=file, Key -1= time series
     QList <float> _strtPnt;                     // all starting points obtained from the timestamp data
     bool _startFound = false;                   //switch for start point
@@ -46,5 +48,7 @@ void nonLinearFit(caTransient *transient, QList <QPointF> values, QVector <float
 float mean(const QVector <float>& v);
 bool catchError(DATA_COMTAINER *data);
 float* convertImageToFloatBuffer(QImage* I);
+QVector<float> movAvFilter(QVector <float>, float);
+QVector<float> adaptiveMovAvFilter(QVector <float>, float);
 
 #endif // XR_TOOLFUNCTIONS_H

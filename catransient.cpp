@@ -109,6 +109,11 @@ void caTransient::calculateValues(const DATA_COMTAINER& p,int _min1, int _min2, 
     riseTime =(p._valuesCa.at(_maxabs).x()/1000.0f)-(p._valuesCa.at(lmin20).x()/1000.0f);} //in seconds
      else emit message("Rise time not calculated");
 
+     if (rmax90!=-1 && rmid50 !=-1){
+    //calculate RT50
+    rt50 =(p._valuesCa.at(rmid50).x()-p._valuesCa.at(rmax90).x())/ 1000.0f;} //in seconds
+     else emit message("RT50");
+
      emit message("End transient");
 
 }

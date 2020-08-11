@@ -25,13 +25,13 @@
 #include "math.h"
 using namespace std;
 
-void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVector<float> rise, float riseR2, QVector <float> decay, float decayR2, float ascSlope, float descSlope, float timeathalfmax, float risetime, float decaytime)
+void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVector<float> rise, float riseR2, QVector <float> decay, float decayR2, float ascSlope, float descSlope, float timeathalfmax, float risetime, float decaytime, float rt50)
 {
     QTableWidgetItem* pPeak = new QTableWidgetItem;
     if(peak != -1)
     {
         pPeak->setText(peak);
-        pPeak->setTextAlignment(Qt::AlignRight);
+        pPeak->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pPeak->setText("n/a");
@@ -40,8 +40,8 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     QTableWidgetItem* pTransT=  new QTableWidgetItem;
     if(transTime != -1)
     {
-        pTransT->setText(QString("%1").arg(transTime, 0,'f',0));
-        pTransT->setTextAlignment(Qt::AlignRight);
+        pTransT->setText(QString("%1").arg(transTime, 0,'f',3));
+        pTransT->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pTransT->setText("n/a");
@@ -50,8 +50,8 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     QTableWidgetItem* ptoPeakT=  new QTableWidgetItem;
     if(timeToPeak != -1)
     {
-        ptoPeakT->setText(QString("%1").arg(timeToPeak, 0,'f',0));
-        ptoPeakT->setTextAlignment(Qt::AlignRight);
+        ptoPeakT->setText(QString("%1").arg(timeToPeak, 0,'f',3));
+        ptoPeakT->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         ptoPeakT->setText("n/a");
@@ -60,7 +60,7 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     QTableWidgetItem* pRise =  new QTableWidgetItem;
     if(!rise.isEmpty()){
         pRise->setText(QString("%1").arg(rise[0], 0,'f',3)+";"+QString("%1").arg(rise[1], 0,'f',3)+ ";"+ QString("%1").arg(rise[2], 0,'f',3));
-        pRise->setTextAlignment(Qt::AlignRight);}
+        pRise->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);}
     else{
         pRise->setText("n/a");
     }
@@ -68,7 +68,7 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     if(riseR2 != -1)
     {
         pRiseR2->setText(QString("%1").arg(riseR2, 0,'f',3));
-        pRiseR2->setTextAlignment(Qt::AlignRight);
+        pRiseR2->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pRiseR2->setText("n/a");
@@ -76,7 +76,7 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     QTableWidgetItem* pDecay=  new QTableWidgetItem;
     if(!decay.isEmpty()){
         pDecay->setText(QString("%1").arg(decay[0], 0,'g',3));
-        pDecay->setTextAlignment(Qt::AlignRight);
+        pDecay->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pDecay->setText("n/a");
@@ -86,7 +86,7 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     if(decayR2 != -1)
     {
         pDecayR2->setText(QString("%1").arg(decayR2,0,'f',3));
-        pDecayR2->setTextAlignment(Qt::AlignRight);
+        pDecayR2->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pDecayR2->setText("n/a");
@@ -96,7 +96,7 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     if(ascSlope != -1)
     {
         pAscSlope->setText(QString("%1").arg(ascSlope,0,'f',3));
-        pAscSlope->setTextAlignment(Qt::AlignRight);
+        pAscSlope->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pAscSlope->setText("n/a");
@@ -106,7 +106,7 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     if(descSlope != -1)
     {
         pDescSlope->setText(QString("%1").arg(descSlope,0,'f',3));
-        pDescSlope->setTextAlignment(Qt::AlignRight);
+        pDescSlope->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pDescSlope->setText("n/a");
@@ -116,7 +116,7 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     if(timeathalfmax != -1)
     {
         pTimeAtHalfMax->setText(QString("%1").arg(timeathalfmax,0,'f',3));
-        pTimeAtHalfMax->setTextAlignment(Qt::AlignRight);
+        pTimeAtHalfMax->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pTimeAtHalfMax->setText("n/a");
@@ -126,7 +126,7 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     if(risetime != -1)
     {
         pRiseTime->setText(QString("%1").arg(risetime,0,'f',3));
-        pRiseTime->setTextAlignment(Qt::AlignRight);
+        pRiseTime->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pRiseTime->setText("n/a");
@@ -136,11 +136,22 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     if(decaytime != -1)
     {
         pDecayTime->setText(QString("%1").arg(decaytime,0,'f',3));
-        pDecayTime->setTextAlignment(Qt::AlignRight);
+        pDecayTime->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
     }
     else{
         pDecayTime->setText("n/a");
     }
+
+    QTableWidgetItem* pRT50=  new QTableWidgetItem;
+    if(decaytime != -1)
+    {
+        pRT50->setText(QString("%1").arg(rt50,0,'f',3));
+        pRT50->setTextAlignment(Qt::AlignRight|Qt::AlignVCenter);
+    }
+    else{
+        pRT50->setText("n/a");
+    }
+
 
     ui->pTable->setRowCount(ui->pTable->rowCount()+1);
     int row = ui->pTable->rowCount()-1;
@@ -156,6 +167,8 @@ void rdrMainDlg::fillTable(QString peak, float transTime, float timeToPeak, QVec
     ui->pTable->setItem(row,9,pTimeAtHalfMax);
     ui->pTable->setItem(row,10,pRiseTime);
      ui->pTable->setItem(row,11,pDecayTime);
+     ui->pTable->setItem(row,12,pRT50);
+
 
     for (int c=0;c<ui->pTable->columnCount();++c) ui->pTable->resizeColumnToContents(c);
 }

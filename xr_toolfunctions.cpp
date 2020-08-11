@@ -1,8 +1,8 @@
 #include "xr_toolfunctions.h"
 #include "catransient.h"
 
-#include "alglib/src/interpolation.h"
-#include "alglib/src/stdafx.h"
+#include "../3rd_party/Alglib/src/interpolation.h"
+#include "../3rd_party/Alglib/src/stdafx.h"
 using namespace alglib;
 
 #include <QFileInfoList>
@@ -169,4 +169,41 @@ void nonLinearFit(caTransient *transient, QList <QPointF> values, QVector <float
     }
     // error?
 
+}
+QVector <float> movAvFilter(QVector <float> values, float halfFrameWidth)
+{   // noise reduction
+    QVector <float> res;
+    float sumBuffer,count;
+    for (int i=0;i<values.count();++i)
+    {
+        sumBuffer=0.0f;count=0.0f;
+        for (int j=std::max(0.0f,(float)i-halfFrameWidth);j<std::min((float)values.count(),(float)i+halfFrameWidth);++j)
+        {
+            sumBuffer+=values.at(j);
+            count++;
+        }
+        count>0 ? res.append(sumBuffer/count) : res.append(0);
+    }
+    return res;
+}
+
+QVector <float> adaptiveMovAvFilter(QVector <float> values, float halfFrameWidth)
+{   // adaptive noise reduction, takes care of outliers
+    QVector <float> _filtered = movAvFilter(values,halfFrameWidth);
+    float _weight;
+
+    QVector <float> res;
+    float sumBuffer,count;
+    for (int i=0;i<values.count();++i)
+    {
+        sumBuffer=0.0f;count=0.0f;
+        for (int j=std::max(0.0f,(float)i-halfFrameWidth);j<std::min((float)values.count(),(float)i+halfFrameWidth);++j)
+        {
+            _weight = 1.0f / (fabs(values.at(j)-_filtered.at(j))+0.1f);
+            sumBuffer+=_weight*values.at(j);
+            count+=_weight;
+        }
+        count>0 ? res.append(sumBuffer/count) : res.append(0);
+    }
+    return res;
 }

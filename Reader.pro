@@ -16,22 +16,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    alglib/src/alglibinternal.cpp \
-    alglib/src/alglibmisc.cpp \
-    alglib/src/ap.cpp \
-    alglib/src/dataanalysis.cpp \
-    alglib/src/diffequations.cpp \
-    alglib/src/fasttransforms.cpp \
-    alglib/src/integration.cpp \
-    alglib/src/interpolation.cpp \
-    alglib/src/linalg.cpp \
-    alglib/src/optimization.cpp \
-    alglib/src/solvers.cpp \
-    alglib/src/specialfunctions.cpp \
-    alglib/src/statistics.cpp \
+    ../3rd_party/Alglib/src/alglibinternal.cpp \
+    ../3rd_party/Alglib/src/alglibmisc.cpp \
+    ../3rd_party/Alglib/src/ap.cpp \
+    ../3rd_party/Alglib/src/dataanalysis.cpp \
+    ../3rd_party/Alglib/src/diffequations.cpp \
+    ../3rd_party/Alglib/src/fasttransforms.cpp \
+    ../3rd_party/Alglib/src/integration.cpp \
+    ../3rd_party/Alglib/src/interpolation.cpp \
+    ../3rd_party/Alglib/src/linalg.cpp \
+    ../3rd_party/Alglib/src/optimization.cpp \
+    ../3rd_party/Alglib/src/solvers.cpp \
+    ../3rd_party/Alglib/src/specialfunctions.cpp \
+    ../3rd_party/Alglib/src/statistics.cpp \
     catransient.cpp \
     effecttoolbutton.cpp \
     main.cpp \
+    meatransient.cpp \
     pathbrowsewdgt.cpp \
     rdrCustomPixmapItem.cpp \
     rdrEllipseItem.cpp \
@@ -50,22 +51,23 @@ SOURCES += \
     xrsettingswdgt.cpp
 
 HEADERS += \
-    alglib/src/alglibinternal.h \
-    alglib/src/alglibmisc.h \
-    alglib/src/ap.h \
-    alglib/src/dataanalysis.h \
-    alglib/src/diffequations.h \
-    alglib/src/fasttransforms.h \
-    alglib/src/integration.h \
-    alglib/src/interpolation.h \
-    alglib/src/linalg.h \
-    alglib/src/optimization.h \
-    alglib/src/solvers.h \
-    alglib/src/specialfunctions.h \
-    alglib/src/statistics.h \
-    alglib/src/stdafx.h \
+    ../3rd_party/Alglib/src/alglibinternal.h \
+    ../3rd_party/Alglib/src/alglibmisc.h \
+    ../3rd_party/Alglib/src/ap.h \
+    ../3rd_party/Alglib/src/dataanalysis.h \
+    ../3rd_party/Alglib/src/diffequations.h \
+    ../3rd_party/Alglib/src/fasttransforms.h \
+    ../3rd_party/Alglib/src/integration.h \
+    ../3rd_party/Alglib/src/interpolation.h \
+    ../3rd_party/Alglib/src/linalg.h \
+    ../3rd_party/Alglib/src/optimization.h \
+    ../3rd_party/Alglib/src/solvers.h \
+    ../3rd_party/Alglib/src/specialfunctions.h \
+    ../3rd_party/Alglib/src/statistics.h \
+    ../3rd_party/Alglib/src/stdafx.h \
     catransient.h \
     effecttoolbutton.h \
+    meatransient.h \
     pathbrowsewdgt.h \
     rdrCustomPixmapItem.h \
     rdrEllipseItem.h \

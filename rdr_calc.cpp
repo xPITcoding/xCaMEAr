@@ -4,14 +4,14 @@
 #include "ui_rdrmaindlg.h"
 #include "rdrmaindlg.h"
 #include "catransient.h"
-#include "alglib/src/interpolation.h"
-#include "alglib/src/stdafx.h"
+#include "../3rd_party/Alglib/src/interpolation.h"
+#include "../3rd_party/Alglib/src/stdafx.h"
 #include <QFileInfoList>
 #include <QTextStream>
 using namespace alglib;
 
 
-void rdrMainDlg::findMaxPositions(QVector<float> values, QVector<int> &_peaks,int minFrame,int maxFrame)
+void rdrMainDlg::findMaxPositions(QVector<float> values, QVector<int> &_peaks,int minFrame,int maxFrame, float lvlFac)
 {
     if (values.length()>2)
     {
@@ -23,7 +23,7 @@ void rdrMainDlg::findMaxPositions(QVector<float> values, QVector<int> &_peaks,in
             _maxVal=std::max(_maxVal,values.at(i));
         }
 
-        float _lvlFac = 0.5;
+        float _lvlFac = lvlFac;
         float _lvl = _minVal+(_maxVal-_minVal)*_lvlFac;
         bool _startPntFound=false;
         QVector <int> _region;
@@ -107,43 +107,7 @@ void rdrMainDlg::findMinPositions(QVector<float> values, QVector<int> &_peaks,in
     }
 }
 
-QVector <float> rdrMainDlg::movAvFilter(QVector <float> values, float halfFrameWidth)
-{   // noise reduction
-    QVector <float> res;
-    float sumBuffer,count;
-    for (int i=0;i<values.count();++i)
-    {
-        sumBuffer=0.0f;count=0.0f;
-        for (int j=std::max(0.0f,(float)i-halfFrameWidth);j<std::min((float)values.count(),(float)i+halfFrameWidth);++j)
-        {
-            sumBuffer+=values.at(j);
-            count++;
-        }
-        count>0 ? res.append(sumBuffer/count) : res.append(0);
-    }
-    return res;
-}
 
-QVector <float> rdrMainDlg::adaptiveMovAvFilter(QVector <float> values, float halfFrameWidth)
-{   // adaptive noise reduction, takes care of outliers
-    QVector <float> _filtered = movAvFilter(values,halfFrameWidth);
-    float _weight;
-
-    QVector <float> res;
-    float sumBuffer,count;
-    for (int i=0;i<values.count();++i)
-    {
-        sumBuffer=0.0f;count=0.0f;
-        for (int j=std::max(0.0f,(float)i-halfFrameWidth);j<std::min((float)values.count(),(float)i+halfFrameWidth);++j)
-        {
-            _weight = 1.0f / (fabs(values.at(j)-_filtered.at(j))+0.1f);
-            sumBuffer+=_weight*values.at(j);
-            count+=_weight;
-        }
-        count>0 ? res.append(sumBuffer/count) : res.append(0);
-    }
-    return res;
-}
 
 void rdrMainDlg::getIntervals(QVector<float> values, caTransient& transient, QVector<float> &intervalY, QVector<float> &intervalX, int dir)
 {
@@ -188,7 +152,8 @@ void rdrMainDlg::mean (DATA_COMTAINER *p)
         float descSlopeAv=0.0f;
         float timeAtHalfMaxAv =0.0f;
         float risetimeAv =0.0f;
-        float decaytimeAv =0.0f; // averages
+        float decaytimeAv =0.0f;
+        float rt50av =0.0f;// averages
         QVector <float> riseAV(3,0.0f),decayAv(1,0.0f);
         // averages
         for (int i=0; i<p->transList.size(); i++)
@@ -206,6 +171,7 @@ void rdrMainDlg::mean (DATA_COMTAINER *p)
             decayAv[0] +=p->transList.at(i)->decay[0];
             risetimeAv+=p->transList.at(i)->riseTime;
             decaytimeAv+=p->transList.at(i)->decayTime;
+            rt50av+=p->transList.at(i)->rt50;
         }
 
         transTimeAv/=(float)p->transList.size();
@@ -222,13 +188,14 @@ void rdrMainDlg::mean (DATA_COMTAINER *p)
         decayAv[0]/=(float)p->transList.size();
         risetimeAv/=(float)p->transList.size();
         decaytimeAv/=(float)p->transList.size();
+        rt50av/=(float)p->transList.size();
 
-        fillTable("avg", transTimeAv, tToPeakAv, riseAV, riseR2Av, decayAv, decayR2Av, ascSlopeAv, descSlopeAv, timeAtHalfMaxAv, risetimeAv, decaytimeAv);
+        fillTable("avg", transTimeAv, tToPeakAv, riseAV, riseR2Av, decayAv, decayR2Av, ascSlopeAv, descSlopeAv, timeAtHalfMaxAv, risetimeAv, decaytimeAv, rt50av);
     }
     catch (...)
     {
         QVector <float> error(1,0.0f);
-        fillTable("avg", 0, 0, error, 0, error, 0, 0, 0, 0, 0, 0);
+        fillTable("avg", 0, 0, error, 0, error, 0, 0, 0, 0, 0, 0,0);
 
     }
 
