@@ -11,7 +11,7 @@
 using namespace alglib;
 
 
-void rdrMainDlg::findMaxPositions(QVector<float> values, QVector<int> &_peaks,int minFrame,int maxFrame, float lvlFac)
+void rdrMainDlg::findMaxPositions(QVector<float> values, QVector<int> &_peaks,int minFrame,int maxFrame, float lvlFac, int minIntervalFrames)
 {
     if (values.length()>2)
     {
@@ -37,7 +37,6 @@ void rdrMainDlg::findMaxPositions(QVector<float> values, QVector<int> &_peaks,in
             if (_startPntFound) _region.append(i);
             if (values.at(i)>_lvl && values.at(i+1)<_lvl && _startPntFound)
             {
-                int minIntervalFrames = ::_settings["FPS"]._floatValue*::_settings["minimum interval length [s]"]._floatValue;
                 if (_region.count()>=minIntervalFrames)
                 {
                     // endpoint found
@@ -57,53 +56,64 @@ void rdrMainDlg::findMaxPositions(QVector<float> values, QVector<int> &_peaks,in
         }
     }
 }
-void rdrMainDlg::findMinPositions(QVector<float> values, QVector<int> &_peaks,int minFrame,int maxFrame)
+void rdrMainDlg::findMinPositions(QVector<float> values, QVector<int> _peaks, QVector <int> &_minPositions,int minFrame,int maxFrame)
 {
+    _minPositions.clear();
     //find min and max of the curve
     if (values.length()>2)
     {
-        float _minVal,_maxVal;
-        _minVal=_maxVal=values.at(0);
-        for (int i=minFrame;i<maxFrame;++i)
+
+        for (long maxId=0;maxId<_peaks.count();++maxId)
         {
-            _minVal=std::min(_minVal,values.at(i)); //min
-            _maxVal=std::max(_maxVal,values.at(i)); //max
-
-
-        }
-
-        float _lvlFac = 0.5;
-        float _lvl = _minVal+(_maxVal-_minVal)*_lvlFac; //define the point in the middle of slope
-        bool _startPntFound=false;
-        QVector <int> _region;
-        for (int i=minFrame+1;i<maxFrame-1;++i)
-        {
-            if (values.at(i)>_lvl && values.at(i+1)<_lvl) //define the staring point in the middle of the descending curve
+            bool _lastMinFound=false;
+            float _minVal;
+            int _minPos;
+            long j=_peaks.at(maxId);
+            while (j>=minFrame && (maxId==0 || j>_peaks.at(maxId-1)))
             {
-                _startPntFound=true;
-                _region.clear();
-            }
-            if (_startPntFound) _region.append(i); // add every value in the descending curve until minimum
-            if (values.at(i)<_lvl && values.at(i+1)>_lvl && _startPntFound)
-            {
-                int minIntervalFrames = ::_settings["FPS"]._floatValue*::_settings["minimum interval length [s]"]._floatValue;
-                if (_region.count()>=minIntervalFrames)
+                if (_lastMinFound==false)
                 {
-                    // endpoint found
-                    float _minBrightnessInRegion=65535.0f;
-                    int _minBrightnessPos=-1;
-                    for (int j=0;j<_region.length();++j) // range with descending values
-                        if (values.at(_region.at(j))<_minBrightnessInRegion) //walk over to determine min
-                        {
-                            _minBrightnessPos=_region.at(j);
-                            _minBrightnessInRegion=values.at(_region.at(j));
-                        }
-                    if (_minBrightnessPos!=-1)
-                        _peaks.append(_minBrightnessPos);
+                    _lastMinFound=true;
+                    _minVal=values.at(j);
+                    _minPos=j;
                 }
-                _startPntFound=false;
+                else {
+                    if (values.at(j)<_minVal)
+                    {
+                        _minVal=values.at(j);
+                        _minPos=j;
+                    }
+                }
+                --j;
             }
+
+            _minPositions.append(_minPos);
         }
+
+        bool _lastMinFound=false;
+        float _minVal;
+        int _minPos;
+        long j=_peaks.at(_peaks.count()-1);
+        while (j<maxFrame)
+        {
+            if (_lastMinFound==false)
+            {
+                _lastMinFound=true;
+                _minVal=values.at(j);
+                _minPos=j;
+            }
+            else {
+                if (values.at(j)<_minVal)
+                {
+                    _minVal=values.at(j);
+                    _minPos=j;
+                }
+            }
+            ++j;
+        }
+
+        _minPositions.append(_minPos);
+
     }
 }
 

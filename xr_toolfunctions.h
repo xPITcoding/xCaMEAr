@@ -32,9 +32,9 @@ struct DATA_COMTAINER
     QList <QPointF> _valuesCa;
     QList <QPointF> _valuesMEA;
 
-    float minGlob, maxGlob;                     // global min and max
-    double peakFreq;                            //peak frequency parameter
-    double peakIrregularity;                    //standard deviation of peak frequency
+    float minGlob, maxGlob;                        // global min and max
+    double peakFreq=-1;                            //peak frequency parameter
+    double peakIrregularity=-1;                    //standard deviation of peak frequency
 
 
     QList <caTransient*> transList;             //all calculated transients

@@ -56,8 +56,8 @@ private slots:
     void electrodeHandleItemMoved(int);
     void zoom(int p);
     void on_pStart_clicked();
-    void findMinPositions(QVector<float>, QVector<int>&,int,int);
-    void findMaxPositions(QVector<float>, QVector<int>&,int,int, float lvlFac);
+    void findMinPositions(QVector<float>, QVector<int>, QVector<int>&,int,int);             //values, maxPositions, minPositions [returned], leftMin, rightMin
+    void findMaxPositions(QVector<float>, QVector<int>&,int,int, float lvlFac, int window);
 
     void getIntervals(QVector<float> values, caTransient& tr, QVector<float>& intervalY, QVector<float>& intervalX, int dir);
     void mean (DATA_COMTAINER *p);

@@ -18,8 +18,8 @@ xrSettingsWdgt::xrSettingsWdgt(QWidget *parent) :
     ui->pSettingsTable->resizeColumnToContents(0);
 
     _iconMap["general"] = QIcon(QPixmap(":/images/general_settings.png"));
-    _iconMap["MEA"] = QIcon(QPixmap(":/images/2D.png"));
-    _iconMap["calcium"] = QIcon(QPixmap(":/images/3D.png"));
+    _iconMap["electrode"] = QIcon(QPixmap(":/images/analysis.png"));
+    _iconMap["calcium"] = QIcon(QPixmap(":/images/cell.png"));
 
     QFileInfo info("rdrSettings.dat");
     if (info.exists())
@@ -85,23 +85,14 @@ void xrSettingsWdgt::standardValues()
     ::_settings["FPS"]._type=MT_FLOAT;
     ::_settings["FPS"]._floatValue=50.0f;
     ::_settings["FPS"]._rubrik= "calcium";
-    ::_settings["noise reduction"]._type=MT_BOOL;
-    ::_settings["noise reduction"]._boolValue= false;
-    ::_settings["noise reduction"]._rubrik= "calcium";
     ::_settings["minimum interval length [s]"]._type=MT_FLOAT;
     ::_settings["minimum interval length [s]"]._floatValue=0.1f;
     ::_settings["minimum interval length [s]"]._rubrik="calcium";
-    ::_settings["adaptive noise reduction"]._type=MT_BOOL;
-    ::_settings["adaptive noise reduction"]._boolValue= false;
-    ::_settings["adaptive noise reduction"]._rubrik= "calcium";
-    ::_settings["noise reduction"]._type=MT_BOOL;
-    ::_settings["noise reduction"]._boolValue= false;
-    ::_settings["noise reduction"]._rubrik= "MEA";
-    ::_settings["artifact slope threshold"]._type=MT_FLOAT;
-    ::_settings["artifact slope threshold"]._floatValue=2000000.0f;
-    ::_settings["artifact slope threshold"]._rubrik= "MEA";
+    ::_settings["FPS(electrode)"]._type=MT_FLOAT;
+    ::_settings["FPS(electrode)"]._floatValue=10000.0f;
+    ::_settings["FPS(electrode)"]._rubrik= "electrode";
     ::_settings["last imported file"]._type=MT_FILE;
-    ::_settings["last imported file"]._stringValue="";
+    ::_settings["last imported file"]._stringValue="/home/xpit/reader_settings.txt";
     ::_settings["last imported file"]._rubrik = "general";
     /*::_settings["preview reduction"]._type=MT_INT;::_settings["preview reduction"]._intValue=4;
     ::_settings["preview reduction"]._rubrik = "3d view";

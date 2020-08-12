@@ -65,7 +65,7 @@ void caTransient::calculateValues(const DATA_COMTAINER& p,int _min1, int _min2, 
     nonLinearFit(this, p._valuesCa, rise, riseR2, 2, up);}
     else emit message("Rise not calculated");
 
-    QFile f("/home/xpit/tmp/decay.csv");
+    /*QFile f("/home/xpit/tmp/decay.csv");
     f.open(QFile::WriteOnly);
     QTextStream t(&f);
     float _startTime = p._valuesCa.at(rmax90).x();
@@ -77,7 +77,7 @@ void caTransient::calculateValues(const DATA_COMTAINER& p,int _min1, int _min2, 
         t << QString("%1,%2\n").arg((p._valuesCa.at(i).x()-_startTime)/1000.0f).arg(p._valuesCa.at(i).y());
     }
     f.close();
-
+*/
     // calculate time to peak
     timeToPeak= (p._valuesCa.at(_maxabs).x()-p._valuesCa.at(lmin).x())/1000.0f; //in seconds
 

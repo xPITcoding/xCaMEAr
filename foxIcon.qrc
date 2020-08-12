@@ -5,5 +5,8 @@
         <file>eis.gif</file>
         <file>yet_another_running_fox-2.gif</file>
         <file>yet_another_running_fox.gif</file>
+        <file>general_settings.png</file>
+        <file>analysis.png</file>
+        <file>cell.png</file>
     </qresource>
 </RCC>

@@ -110,12 +110,17 @@ void rdrMainDlg::on_pExport_clicked()
         }
         sy << "Peak frequency" <<',' <<"Peak irregularity" <<Qt::endl;
         sy <<data.peakFreq <<','   <<data.peakIrregularity   <<Qt::endl;
-        sy <<"Action Potential" <<',' <<"Start depolarisation" <<',' <<"End depolarisation" <<','<<"Time to depolarisation" <<',' <<Qt::endl;
-        for(int e=0; e<data.transMEA.count(); e++)
-        {
-            sy <<e <<',' <<data.transMEA.at(e)->lMin20 <<',' <<data.transMEA.at(e)->rMin <<',' <<data.transMEA.at(e)->timeToDepol <<',' <<Qt::endl;
 
+        if(data.transMEA.count()>1)
+        {
+            sy <<"Peak" <<',' <<"Baseline" <<',' <<"FPmin" <<','<<"Rise Time" <<',' <<Qt::endl;
+            for(int e=0; e<data.transMEA.count(); e++)
+            {
+                sy <<e <<',' <<data.transMEA.at(e)->lMin20 <<',' <<data.transMEA.at(e)->rMin <<',' <<data.transMEA.at(e)->timeToDepol <<',' <<Qt::endl;
+
+            }
         }
+        else sy <<"No electrode transients detected" <<Qt::endl;
 
         sy << "Ca time" <<',' <<"Ca intensity" <<',' <<"MEA time" << ',' <<"MEA intensity" <<',' << Qt::endl;
         for(long i=0; i<data._valuesMEA.count(); i++)

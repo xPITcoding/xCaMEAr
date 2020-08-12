@@ -36,6 +36,9 @@ void rdrMainDlg::on_pStart_clicked()
     data._valuesCa.clear();
     data._valuesMEA.clear();
     data.transList.clear();
+    data.transMEA.clear();
+    data._minPos.clear();
+    data._maxPos.clear();
     QVector <float> _regionIntensity;           //mean intensity in the ROI
 
 if(_electrodeR.pRegionPathItem != nullptr)
@@ -80,11 +83,13 @@ if(_electrodeR.pRegionPathItem != nullptr)
 
     ui->pProgressBar->setValue(20);
     ui->pProgressLbl->setText("Fox runs over peaks and valleys");
-    //find minimum peaks
-    findMinPositions(_regionIntensity,data._minPos,0, _regionIntensity.count()-1);
 
     //find maximum peaks
-    findMaxPositions(_regionIntensity,data._maxPos,0,_regionIntensity.count()-1, 0.5);
+    findMaxPositions(_regionIntensity,data._maxPos,0,_regionIntensity.count()-1, 0.5,::_settings["FPS"]._floatValue*::_settings["minimum interval length [s]"]._floatValue);
+
+    //find minimum peaks
+    findMinPositions(_regionIntensity,data._maxPos,data._minPos,0, _regionIntensity.count()-1);
+
     if (data._minPos.count()==0 || data._maxPos.count()==0){ emit message ("Minimums and maximums were not calculated"); return;}
 
     //find absolute min and max
@@ -182,12 +187,17 @@ if(_electrodeR.pRegionPathItem != nullptr)
         }
         data.transMEA.clear();
         QVector <float> _meaValues;
-        for (long i=0;i<data._valuesMEA.count();++i)
+        for (long long i=0;i<data._valuesMEA.count();++i)
             _meaValues.append(data._valuesMEA[i].y());
         QVector <int> _maxPosMEA;
-        findMaxPositions(_meaValues, _maxPosMEA, 0, _meaValues.count()-1, 0.75);
-        for(int meaPeak = 0; meaPeak<_maxPosMEA.count(); meaPeak++)
-            data.transMEA.append(new meatransient(data._valuesMEA, _maxPosMEA.at(meaPeak), _maxElectrode, _minElectrode));
+        findMaxPositions(_meaValues, _maxPosMEA, 0, _meaValues.count()-1, 0.75, ::_settings["FPS(electorde)"]._intValue*::_settings["minimum interval length [s]"]._floatValue);
+        for(long long meaPeak = 0; meaPeak<_maxPosMEA.count(); meaPeak++)
+           {
+                data.transMEA.append(new meatransient(data._valuesMEA, _maxPosMEA.at(meaPeak), _maxElectrode, _minElectrode));
+                if(data.transMEA.last()->timeToDepol==-1)
+                    ui->pErrorTxtB->append(QString("%1").arg(data.transMEA.count())+ ". " + "No meaningful parameter for electrode peak was calculated");
+           }
+
 
     }
 
@@ -240,13 +250,12 @@ if(_electrodeR.pRegionPathItem != nullptr)
         _axisY.at(0)->setMax(1.1f);
         _axisY.at(0)->setMin(-0.05);
     }
-    ui->pProgressBar->setValue(100);
-    ui->pProgressLbl->setText("Calculations complete");
 
-//************************************BEGIN CALCULATIONS AND POPULATE THE TABLE*************************************
+
 // get the peak frequency parameter
     float x2=0.0f ,x1=0.0f;
     QList <float> cValues;
+    data.peakFreq=0.0;
     for(int i=0;i<data.transList.count()-1; i++)
     {
         x2=data._valuesCa.at((data.transList.at(i+1)->_maxabs)).x();
@@ -266,6 +275,10 @@ if(_electrodeR.pRegionPathItem != nullptr)
     data.peakIrregularity/=(double)(data.transList.count()-2);
     data.peakIrregularity = sqrt(data.peakIrregularity);
 
+    ui->pProgressBar->setValue(100);
+    ui->pProgressLbl->setText("Calculations complete");
+
+//************************************POPULATE THE TABLE*************************************
 //populate table
     for(int transNr = 0; transNr<data.transList.count(); transNr++)
     {

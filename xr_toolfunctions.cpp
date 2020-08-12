@@ -11,7 +11,7 @@ using namespace alglib;
 float* convertImageToFloatBuffer(QImage* I)
 {
     float *res=(float*)malloc(I->width()*I->height()*sizeof (float));
-    long offset=0;
+    long long offset=0;
     for (long y=0;y<I->height();++y)
         for (long x=0;x<I->width();++x)
             res[offset++]=qGray(I->pixel(x,y));
@@ -173,11 +173,11 @@ void nonLinearFit(caTransient *transient, QList <QPointF> values, QVector <float
 QVector <float> movAvFilter(QVector <float> values, float halfFrameWidth)
 {   // noise reduction
     QVector <float> res;
-    float sumBuffer,count;
-    for (int i=0;i<values.count();++i)
+    long double sumBuffer,count;
+    for (long long i=0;i<values.count();++i)
     {
-        sumBuffer=0.0f;count=0.0f;
-        for (int j=std::max(0.0f,(float)i-halfFrameWidth);j<std::min((float)values.count(),(float)i+halfFrameWidth);++j)
+        sumBuffer=0.0;count=0.0;
+        for (long long j=std::max((long double)0.0,(long double)i-halfFrameWidth);j<std::min((long double)values.count(),(long double)i+halfFrameWidth);++j)
         {
             sumBuffer+=values.at(j);
             count++;
@@ -190,16 +190,16 @@ QVector <float> movAvFilter(QVector <float> values, float halfFrameWidth)
 QVector <float> adaptiveMovAvFilter(QVector <float> values, float halfFrameWidth)
 {   // adaptive noise reduction, takes care of outliers
     QVector <float> _filtered = movAvFilter(values,halfFrameWidth);
-    float _weight;
+    long double _weight;
 
     QVector <float> res;
-    float sumBuffer,count;
-    for (int i=0;i<values.count();++i)
+    long double sumBuffer,count;
+    for (long long i=0;i<values.count();++i)
     {
-        sumBuffer=0.0f;count=0.0f;
-        for (int j=std::max(0.0f,(float)i-halfFrameWidth);j<std::min((float)values.count(),(float)i+halfFrameWidth);++j)
+        sumBuffer=0.0;count=0.0;
+        for (long long j=std::max((long double)0.0,(long double)i-halfFrameWidth);j<std::min((long double)values.count(),(long double)i+halfFrameWidth);++j)
         {
-            _weight = 1.0f / (fabs(values.at(j)-_filtered.at(j))+0.1f);
+            _weight = 1.0 / (fabs(values.at(j)-_filtered.at(j))+0.1);
             sumBuffer+=_weight*values.at(j);
             count+=_weight;
         }

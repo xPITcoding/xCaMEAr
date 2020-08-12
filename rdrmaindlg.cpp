@@ -56,7 +56,7 @@ rdrMainDlg::rdrMainDlg(QWidget *parent)
 
     ui->tabWidget->setCurrentIndex(1);
 
-    QFile f("/home/xpit/reader_settings.txt");
+    QFile f( ::_settings["last imported file"]._stringValue);
     if (f.open(QFile::ReadOnly))
     {
         QTextStream t(&f);
