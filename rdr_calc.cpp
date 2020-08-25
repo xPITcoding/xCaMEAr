@@ -67,7 +67,7 @@ void rdrMainDlg::findMinPositions(QVector<float> values, QVector<int> _peaks, QV
         {
             bool _lastMinFound=false;
             float _minVal;
-            int _minPos;
+            long _minPos;
             long j=_peaks.at(maxId);
             while (j>=minFrame && (maxId==0 || j>_peaks.at(maxId-1)))
             {
@@ -92,7 +92,7 @@ void rdrMainDlg::findMinPositions(QVector<float> values, QVector<int> _peaks, QV
 
         bool _lastMinFound=false;
         float _minVal;
-        int _minPos;
+        long _minPos;
         long j=_peaks.at(_peaks.count()-1);
         while (j<maxFrame)
         {
