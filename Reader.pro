@@ -99,45 +99,55 @@ RESOURCES += \
     foxIcon.qrc \
     xCam_resources.qrc
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../libtiff-master/libtiff/release/ -ltiff
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../libtiff-master/libtiff/debug/ -ltiff
-else:unix: LIBS += -L$$PWD/../libtiff-master/libtiff/ -ltiff
 
-INCLUDEPATH += $$PWD/../libtiff-master/libtiff
-DEPENDPATH += $$PWD/../libtiff-master/libtiff
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/release/ -lGCBase_gcc_v3_1_Basler_pylon
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/debug/ -lGCBase_gcc_v3_1_Basler_pylon
-else:unix: LIBS += -L$$PWD/../../../../opt/pylon5/lib64/ -lGCBase_gcc_v3_1_Basler_pylon
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGCBase_MD_VC141_v3_1_Basler_pylon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGCBase_MD_VC141_v3_1_Basler_pylon
+else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGCBase_MD_VC141_v3_1_Basler_pylon
 
-INCLUDEPATH += $$PWD/../../../../opt/pylon5/include
-DEPENDPATH += $$PWD/../../../../opt/pylon5/include
+INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include'
+DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include'
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/release/ -lGenApi_gcc_v3_1_Basler_pylon
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/debug/ -lGenApi_gcc_v3_1_Basler_pylon
-else:unix: LIBS += -L$$PWD/../../../../opt/pylon5/lib64/ -lGenApi_gcc_v3_1_Basler_pylon
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGenApi_MD_VC141_v3_1_Basler_pylon
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGenApi_MD_VC141_v3_1_Basler_pylon
+else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGenApi_MD_VC141_v3_1_Basler_pylon
 
-INCLUDEPATH += $$PWD/../../../../opt/pylon5/include/GenApi
-DEPENDPATH += $$PWD/../../../../opt/pylon5/include/GenApi
+INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/GenApi'
+DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/GenApi'
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/release/ -lpylonbase
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/debug/ -lpylonbase
-else:unix: LIBS += -L$$PWD/../../../../opt/pylon5/lib64/ -lpylonbase
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonBase_v6_1
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonBase_v6_1
+else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonBase_v6_1
 
-INCLUDEPATH += $$PWD/../../../../opt/pylon5/include
-DEPENDPATH += $$PWD/../../../../opt/pylon5/include
+INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/Base'
+DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/Base'
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/release/ -lpylonc
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/debug/ -lpylonc
-else:unix: LIBS += -L$$PWD/../../../../opt/pylon5/lib64/ -lpylonc
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonC
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonC
+else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonC
 
-INCLUDEPATH += $$PWD/../../../../opt/pylon5/include
-DEPENDPATH += $$PWD/../../../../opt/pylon5/include
+INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/genapic'
+DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/genapic'
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/release/ -lpylonutility
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../opt/pylon5/lib64/debug/ -lpylonutility
-else:unix: LIBS += -L$$PWD/../../../../opt/pylon5/lib64/ -lpylonutility
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonGUI_v6_1
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonGUI_v6_1
+else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonGUI_v6_1
 
-INCLUDEPATH += $$PWD/../../../../opt/pylon5/include
-DEPENDPATH += $$PWD/../../../../opt/pylon5/include
+INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/pylon'
+DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/pylon'
 
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonUtility_v6_1
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonUtility_v6_1
+else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonUtility_v6_1
+
+INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/pylonc'
+DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/pylonc'
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rd_party/libtiff/project/libtiff/release/ -ltiff
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rd_party/libtiff/project/libtiff/debug/ -ltiffd
+else:unix: LIBS += -L$$PWD/../3rd_party/libtiff/project/libtiff/ -ltiffd
+
+INCLUDEPATH += $$PWD/../3rd_party/libtiff/project/libtiff
+DEPENDPATH += $$PWD/../3rd_party/libtiff/project/libtiff
+INCLUDEPATH += $$PWD/../3rd_party/libtiff/libtiff
+DEPENDPATH += $$PWD/../3rd_party/libtiff/libtiff

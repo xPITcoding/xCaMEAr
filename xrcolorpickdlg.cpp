@@ -82,7 +82,7 @@ bool xrColorPickDlg::eventFilter(QObject *watched, QEvent *event)
         }
     }
 
-    QDialog::eventFilter(watched,event);
+    return QDialog::eventFilter(watched,event);
 }
 
 xrColorPickDlg::~xrColorPickDlg()

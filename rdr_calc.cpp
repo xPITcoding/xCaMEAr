@@ -10,6 +10,10 @@
 #include <QTextStream>
 using namespace alglib;
 
+#ifdef Q_OS_WINDOWS
+#include <windows.h>
+#endif
+
 
 void rdrMainDlg::findMaxPositions(QVector<float> values, QVector<int> &_peaks,int minFrame,int maxFrame, float lvlFac, int minIntervalFrames)
 {
@@ -19,8 +23,8 @@ void rdrMainDlg::findMaxPositions(QVector<float> values, QVector<int> &_peaks,in
         _minVal=_maxVal=values.at(0);
         for (int i=minFrame;i<maxFrame;++i)
         {
-            _minVal=std::min(_minVal,values.at(i));
-            _maxVal=std::max(_maxVal,values.at(i));
+            _minVal=min(_minVal,values.at(i));
+            _maxVal=max(_maxVal,values.at(i));
         }
 
         float _lvlFac = lvlFac;

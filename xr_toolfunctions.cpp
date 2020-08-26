@@ -148,7 +148,7 @@ void nonLinearFit(caTransient *transient, QList <QPointF> values, QVector <float
             break;
         }
 
-        QFile f("/home/xpit/tmp/values.csv");
+        QFile f("values.csv");
         if(f.open(QFile::WriteOnly))
         {
             QTextStream sy(&f);

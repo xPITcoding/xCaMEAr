@@ -33,8 +33,11 @@ void rdrMainDlg::on_pExport_clicked()
     QString dir = QDir::currentPath();
     QString _date = QDate::currentDate().toString("dd_MM_yyyy");
     QString defaultName = "result_" + _date + ".csv";
+#ifdef Q_OS_WINDOWS
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"),dir+"\\"+ defaultName, tr("Files (*.csv)"));
+#else
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"),dir+"/"+ defaultName, tr("Files (*.csv)"));
-
+#endif
     QFile f(fileName);
     if(f.open(QFile::WriteOnly))
     {

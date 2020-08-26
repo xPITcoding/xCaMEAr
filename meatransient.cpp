@@ -1,6 +1,10 @@
 #include "meatransient.h"
 #include "xr_toolfunctions.h"
 #include <math.h>
+#ifdef Q_OS_WINDOWS
+#include <stdlib.h>
+#include <windows.h>
+#endif
 
 using namespace std;
 

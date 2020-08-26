@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QLocale>
+#include <QStyleFactory>
 
 int main(int argc, char *argv[])
 {
@@ -9,6 +10,7 @@ int main(int argc, char *argv[])
     rdrMainDlg w;
     QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedKingdom));
     a.setPalette(w.palette());
+    a.setStyle("fusion");
     w.show();
     return a.exec();
 }

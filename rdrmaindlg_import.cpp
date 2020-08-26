@@ -183,7 +183,7 @@ void rdrMainDlg::flatFielding()
 void rdrMainDlg::on_pImport_clicked()
 
 {
-    QFile f("/home/xpit/reader_settings.txt");
+    QFile f("reader_settings.txt");
     if (f.open(QFile::WriteOnly))
     {
         QTextStream t(&f);
