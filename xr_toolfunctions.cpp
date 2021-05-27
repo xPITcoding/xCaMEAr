@@ -1,8 +1,8 @@
 #include "xr_toolfunctions.h"
 #include "catransient.h"
 
-#include "../3rd_party/Alglib/src/interpolation.h"
-#include "../3rd_party/Alglib/src/stdafx.h"
+#include "../../3rd_party/Alglib/src/interpolation.h"
+#include "../../3rd_party/Alglib/src/stdafx.h"
 using namespace alglib;
 
 #include <QFileInfoList>

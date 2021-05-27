@@ -16,19 +16,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ../3rd_party/Alglib/src/alglibinternal.cpp \
-    ../3rd_party/Alglib/src/alglibmisc.cpp \
-    ../3rd_party/Alglib/src/ap.cpp \
-    ../3rd_party/Alglib/src/dataanalysis.cpp \
-    ../3rd_party/Alglib/src/diffequations.cpp \
-    ../3rd_party/Alglib/src/fasttransforms.cpp \
-    ../3rd_party/Alglib/src/integration.cpp \
-    ../3rd_party/Alglib/src/interpolation.cpp \
-    ../3rd_party/Alglib/src/linalg.cpp \
-    ../3rd_party/Alglib/src/optimization.cpp \
-    ../3rd_party/Alglib/src/solvers.cpp \
-    ../3rd_party/Alglib/src/specialfunctions.cpp \
-    ../3rd_party/Alglib/src/statistics.cpp \
+    ../../3rd_party/Alglib/src/alglibinternal.cpp \
+    ../../3rd_party/Alglib/src/alglibmisc.cpp \
+    ../../3rd_party/Alglib/src/ap.cpp \
+    ../../3rd_party/Alglib/src/dataanalysis.cpp \
+    ../../3rd_party/Alglib/src/diffequations.cpp \
+    ../../3rd_party/Alglib/src/fasttransforms.cpp \
+    ../../3rd_party/Alglib/src/integration.cpp \
+    ../../3rd_party/Alglib/src/interpolation.cpp \
+    ../../3rd_party/Alglib/src/linalg.cpp \
+    ../../3rd_party/Alglib/src/optimization.cpp \
+    ../../3rd_party/Alglib/src/solvers.cpp \
+    ../../3rd_party/Alglib/src/specialfunctions.cpp \
+    ../../3rd_party/Alglib/src/statistics.cpp \
     catransient.cpp \
     effecttoolbutton.cpp \
     main.cpp \
@@ -51,20 +51,20 @@ SOURCES += \
     xrsettingswdgt.cpp
 
 HEADERS += \
-    ../3rd_party/Alglib/src/alglibinternal.h \
-    ../3rd_party/Alglib/src/alglibmisc.h \
-    ../3rd_party/Alglib/src/ap.h \
-    ../3rd_party/Alglib/src/dataanalysis.h \
-    ../3rd_party/Alglib/src/diffequations.h \
-    ../3rd_party/Alglib/src/fasttransforms.h \
-    ../3rd_party/Alglib/src/integration.h \
-    ../3rd_party/Alglib/src/interpolation.h \
-    ../3rd_party/Alglib/src/linalg.h \
-    ../3rd_party/Alglib/src/optimization.h \
-    ../3rd_party/Alglib/src/solvers.h \
-    ../3rd_party/Alglib/src/specialfunctions.h \
-    ../3rd_party/Alglib/src/statistics.h \
-    ../3rd_party/Alglib/src/stdafx.h \
+    ../../3rd_party/Alglib/src/alglibinternal.h \
+    ../../3rd_party/Alglib/src/alglibmisc.h \
+    ../../3rd_party/Alglib/src/ap.h \
+    ../../3rd_party/Alglib/src/dataanalysis.h \
+    ../../3rd_party/Alglib/src/diffequations.h \
+    ../../3rd_party/Alglib/src/fasttransforms.h \
+    ../../3rd_party/Alglib/src/integration.h \
+    ../../3rd_party/Alglib/src/interpolation.h \
+    ../../3rd_party/Alglib/src/linalg.h \
+    ../../3rd_party/Alglib/src/optimization.h \
+    ../../3rd_party/Alglib/src/solvers.h \
+    ../../3rd_party/Alglib/src/specialfunctions.h \
+    ../../3rd_party/Alglib/src/statistics.h \
+    ../../3rd_party/Alglib/src/stdafx.h \
     catransient.h \
     effecttoolbutton.h \
     meatransient.h \
@@ -99,55 +99,44 @@ RESOURCES += \
     foxIcon.qrc \
     xCam_resources.qrc
 
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/release/ -lpylonbase
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/debug/ -lpylonbase
+else:unix: LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/ -lpylonbase
 
+INCLUDEPATH += $$PWD/../../../../../opt/pylon5/include/Base
+DEPENDPATH += $$PWD/../../../../../opt/pylon5/include/Base
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGCBase_MD_VC141_v3_1_Basler_pylon
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGCBase_MD_VC141_v3_1_Basler_pylon
-else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGCBase_MD_VC141_v3_1_Basler_pylon
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/release/ -lpylonc
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/debug/ -lpylonc
+else:unix: LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/ -lpylonc
 
-INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include'
-DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include'
+INCLUDEPATH += $$PWD/../../../../../opt/pylon5/include
+DEPENDPATH += $$PWD/../../../../../opt/pylon5/include
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGenApi_MD_VC141_v3_1_Basler_pylon
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGenApi_MD_VC141_v3_1_Basler_pylon
-else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lGenApi_MD_VC141_v3_1_Basler_pylon
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/release/ -lpylonutility
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/debug/ -lpylonutility
+else:unix: LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/ -lpylonutility
 
-INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/GenApi'
-DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/GenApi'
+INCLUDEPATH += $$PWD/../../../../../opt/pylon5/include
+DEPENDPATH += $$PWD/../../../../../opt/pylon5/include
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonBase_v6_1
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonBase_v6_1
-else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonBase_v6_1
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/release/ -lGenApi_gcc_v3_0_Basler_pylon_v5_0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/debug/ -lGenApi_gcc_v3_0_Basler_pylon_v5_0
+else:unix: LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/ -lGenApi_gcc_v3_0_Basler_pylon_v5_0
 
-INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/Base'
-DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/Base'
+INCLUDEPATH += $$PWD/../../../../../opt/pylon5/include/GenApi
+DEPENDPATH += $$PWD/../../../../../opt/pylon5/include/GenApi
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonC
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonC
-else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonC
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/release/ -lGCBase_gcc_v3_0_Basler_pylon_v5_0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/debug/ -lGCBase_gcc_v3_0_Basler_pylon_v5_0
+else:unix: LIBS += -L$$PWD/../../../../../opt/pylon5/lib64/ -lGCBase_gcc_v3_0_Basler_pylon_v5_0
 
-INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/genapic'
-DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/genapic'
+INCLUDEPATH += $$PWD/../../../../../opt/pylon5/include
+DEPENDPATH += $$PWD/../../../../../opt/pylon5/include
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonGUI_v6_1
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonGUI_v6_1
-else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonGUI_v6_1
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../3rd_party/tiff-4.0.10/libtiff/release/ -ltiff
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../3rd_party/tiff-4.0.10/libtiff/debug/ -ltiff
+else:unix: LIBS += -L$$PWD/../../3rd_party/tiff-4.0.10/libtiff/ -ltiff
 
-INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/pylon'
-DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/pylon'
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonUtility_v6_1
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonUtility_v6_1
-else:unix: LIBS += -L$$PWD/'../../../../../Program Files/Basler/pylon 6/Development/lib/x64/' -lPylonUtility_v6_1
-
-INCLUDEPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/pylonc'
-DEPENDPATH += $$PWD/'../../../../../Program Files/Basler/pylon 6/Development/include/pylonc'
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../3rd_party/libtiff/project/libtiff/release/ -ltiff
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../3rd_party/libtiff/project/libtiff/debug/ -ltiffd
-else:unix: LIBS += -L$$PWD/../3rd_party/libtiff/project/libtiff/ -ltiffd
-
-INCLUDEPATH += $$PWD/../3rd_party/libtiff/project/libtiff
-DEPENDPATH += $$PWD/../3rd_party/libtiff/project/libtiff
-INCLUDEPATH += $$PWD/../3rd_party/libtiff/libtiff
-DEPENDPATH += $$PWD/../3rd_party/libtiff/libtiff
+INCLUDEPATH += $$PWD/../../3rd_party/tiff-4.0.10/libtiff
+DEPENDPATH += $$PWD/../../3rd_party/tiff-4.0.10/libtiff

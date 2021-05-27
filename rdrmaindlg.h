@@ -17,8 +17,8 @@
 #include "rdrCustomPixmapItem.h"
 #include "rdrRegionVisualization.h"
 
-#include "../3rd_party/Alglib/src/interpolation.h"
-#include "../3rd_party/Alglib/src/stdafx.h"
+#include "../../3rd_party/Alglib/src/interpolation.h"
+#include "../../3rd_party/Alglib/src/stdafx.h"
 
 using namespace alglib;
 QT_BEGIN_NAMESPACE

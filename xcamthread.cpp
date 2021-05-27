@@ -5,8 +5,8 @@
 #include <QPainter>
 #include <QCoreApplication>
 #include <stdlib.h>
-#include <tiffconf.vc.h>
-#include <tiff.h>
+//#include <tiffconf.vc.h>
+//#include <tiff.h>
 #include <tiffio.h>
 #include <math.h>
 

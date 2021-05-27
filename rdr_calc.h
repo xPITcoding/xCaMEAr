@@ -1,7 +1,7 @@
 #ifndef RDR_CALC_H
 #define RDR_CALC_H
-#include "../3rd_party/Alglib/src/stdafx.h"
-#include "../3rd_party/Alglib/src/interpolation.h"
+#include "../../3rd_party/Alglib/src/stdafx.h"
+#include "../../3rd_party/Alglib/src/interpolation.h"
 
 #include "rdrmaindlg.h"
 

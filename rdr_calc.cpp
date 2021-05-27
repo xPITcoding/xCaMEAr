@@ -4,8 +4,8 @@
 #include "ui_rdrmaindlg.h"
 #include "rdrmaindlg.h"
 #include "catransient.h"
-#include "../3rd_party/Alglib/src/interpolation.h"
-#include "../3rd_party/Alglib/src/stdafx.h"
+#include "../../3rd_party/Alglib/src/interpolation.h"
+#include "../../3rd_party/Alglib/src/stdafx.h"
 #include <QFileInfoList>
 #include <QTextStream>
 using namespace alglib;
